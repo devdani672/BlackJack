@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+	<title></title>
+</head>
+<body>
+
+<div id="perfil">
+	<div id="perfil-divisor">
+		<h2 id="nombre-usuario">Nombre</h2>
+		<h3 id="estatus-usuario">Estatus</h3>
+	</div>
+	<p id="dinero-usuario">Fondos: 99999€</p>
+</div>
+
+<div id="menu-inicial">
+	<input type="text" id="apuesta" placeholder="Apuesta inicial">
+	<button id="apostar-boton" onclick="apostar()">Iniciar apuesta</button>
+</div>
+
+<div id="menu-jugar">
+	<button id="pedir-boton" onclick="pedirCarta1()">Pedir</button>
+	<button id="plantarse-boton" onclick="plantarse()">Plantarse</button>
+</div>
+<button onclick="comprobarAs()">prueba ases</button>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: #f5f5f5;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+	background: #238c85;
+}
+
+#perfil {
+	padding: 20px;
+	width: fit-content;
+	background: #174946;
+	border-bottom-right-radius: 10px;
+	outline: 4px solid #f5f5f5;
+	box-shadow: 4px 4px 10px rgb(10, 22, 15);
+}
+#perfil-divisor {
+	width: 100%;
+}
+#nombre-usuario{
+	width: 50%;
+	display: inline;
+	margin-right: 20px;
+}
+#estatus-usuario {
+	width: 50%;
+	display: inline;
+}
+
+
+	/* MENUS */
+
+#menu-inicial {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: 50%;
+	background: #174946;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	outline: 4px solid #f5f5f5;
+	box-shadow: 4px 4px 10px rgb(10, 22, 15);
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#apuesta {
+	width: 200px;
+	font-size: 1.3rem;
+	text-align: center;
+	padding: 10px;
+	color: #222;
+}
+#apostar-boton{
+	font-size: 1.3rem;
+	color: #222;
+	margin-top: 20px;
+	background: #f5f5f5;
+	padding: 10px;
+	cursor: pointer;
+}
+
+#menu-jugar{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	width: 50%;
+	background: #174946;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	outline: 4px solid #f5f5f5;
+	box-shadow: 4px 4px 10px rgb(10, 22, 15);
+	padding: 20px;
+	display: flex;
+	justify-content: center;
+	display: none;
+}
+#pedir-boton{
+	font-size: 1.3rem;
+	color: #222;
+	background: #f5f5f5;
+	padding: 10px;
+	cursor: pointer;
+}
+#plantarse-boton{
+	font-size: 1.3rem;
+	color: #222;
+	margin-left: 20px;
+	background: #f5f5f5;
+	padding: 10px;
+	cursor: pointer;
+}
