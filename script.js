@@ -1,13 +1,19 @@
+const menuInicial = document.getElementById("menu-inicial")
+const menuJugar = document.getElementById("menu-jugar")
 
 let dinero = 100
 let dineroContador = document.getElementById("dinero-usuario");
 dineroContador.textContent = "Fondos: " + dinero + "€";
 
-let tuMano = 0
-let carta1 = 0
-let carta2 = 0
-let cartaNueva = 0
-let carta4 = 0
+let tuMano 
+let carta1 
+let carta2 
+let cartaNueva 
+let manoCrupier
+let cartaCrupier1
+let cartaCrupier2
+let cartaCrupierNueva
+let apuestaInicial
 
 function generarNumeroCarta() {
     const random = Math.random();
@@ -19,18 +25,44 @@ function generarNumeroCarta() {
     }
 }
 
-function apostar() {
-    const apuestaInicial = document.getElementById("apuesta").value
-    const menuInicial = document.getElementById("menu-inicial")
-    const menuJugar = document.getElementById("menu-jugar")
-    
+function vitoria() {
+    alert("ganaste")
+    dinero = dinero + (2*apuestaInicial)
+    dineroContador.textContent = "Fondos: " + dinero + "€";
+
+    menuInicial.style.display = "inline-flex";
+    menuJugar.style.display = "none" 
+}
+
+function derrota() {
+    alert("perdiste")
+
+    menuInicial.style.display = "inline-flex";
+    menuJugar.style.display = "none" 
+}
+
+function empate() {
+    alert("empate")
+    dinero = dinero + apuestaInicial
+    dineroContador.textContent = "Fondos: " + dinero + "€";
+
+    menuInicial.style.display = "inline-flex";
+    menuJugar.style.display = "none" 
+}
+
+function comprobarApuesta() {
+    apuestaInicial = document.getElementById("apuesta").value
+
     if(dinero-apuestaInicial<0){
         alert("No puedes aportar")
     } else  {
         dinero =  dinero-apuestaInicial
         dineroContador.textContent = "Fondos: " + dinero + "€";
+        apostar()
     }
+}
 
+function apostar() {
     carta1 = generarNumeroCarta()
     carta2 = generarNumeroCarta()
 
@@ -52,10 +84,26 @@ function apostar() {
 
     tuMano =  carta1 + carta2
 
-    let cartaCrupier1 =  generarNumeroCarta()
-    let cartaCrupier2 =  generarNumeroCarta()
+    cartaCrupier1 =  generarNumeroCarta()
+    cartaCrupier2 =  generarNumeroCarta()
 
-    let manoCrupier = cartaCrupier1 + cartaCrupier2
+    if (cartaCrupier1==1){
+        if (11+cartaCrupier2>21){
+            cartaCrupier1 = 1
+        } else{
+            cartaCrupier1 = 11
+        }   
+    }
+
+    if (cartaCrupier2==1){
+        if (11+cartaCrupier1>21){
+            cartaCrupier2 = 1
+        } else{
+            cartaCrupier2 = 11
+        }   
+    }
+
+    manoCrupier = cartaCrupier1 + cartaCrupier2
 
     console.log(carta1, carta2, cartaCrupier1,cartaCrupier2)
     console.log("Tu mano: " + tuMano)
@@ -65,8 +113,7 @@ function apostar() {
     menuJugar.style.display = " inline-flex"  
 }
 
-function pedirCarta1() {
-    const botonCarta = document.getElementById("pedir-boton")
+function pedirCarta() {
     cartaNueva = generarNumeroCarta()
 
      if (cartaNueva==1){
@@ -82,10 +129,47 @@ function pedirCarta1() {
     console.log("Tu mano: " + tuMano)
 
     if (tuMano>21) {
-        alert("perdiste cara d alpiste")
+        derrota()
+
+        menuInicial.style.display = "inline-flex";
+        menuJugar.style.display = "none" 
+    } else if (tuMano == 21) {
+        vitoria()
     }
 
 
-//realizar pantalla perder, boton d plantarse y que juegue el crupier(mejorar las cartas del crupier), realizar comprobacion final y devolver al principio
 }
 
+function plantarse(){
+    cartaCrupierNueva = generarNumeroCarta()
+
+    if (cartaCrupierNueva==1){
+        if (11+cartaCrupier1+cartaCrupier2>21){
+            cartaCrupierNueva = 1
+        } else{
+            cartaCrupierNueva = 11
+        }   
+    }
+
+    if (manoCrupier > tuMano){
+        derrota()
+    } else if (manoCrupier == tuMano && manoCrupier > 16) {
+        empate()
+    }
+
+    console.log("Carta nueva del crupier: " + cartaCrupierNueva)
+    manoCrupier = manoCrupier + cartaCrupierNueva
+    console.log("Mano crupier: " + manoCrupier)
+
+    if (manoCrupier > 21) {
+        vitoria()
+    } else if (manoCrupier == tuMano) {
+        empate()
+    } else if (manoCrupier == 21 || manoCrupier > tuMano) {
+        derrota()
+    } else {
+        setTimeout(plantarse,1500)
+    }
+}
+
+//realizar pantalla perder,  ganar  y empate, mejorar  comprobacion de apuesta, visializacion de cartas y mejora hud (ya es jugable en la consola)
