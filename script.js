@@ -8,7 +8,7 @@ dineroContador.textContent = "Fondos: " + dinero + "€";
 let tuMano 
 let carta1 
 let carta2 
-let cartaNueva 
+let cartaNueva = 0
 let manoCrupier
 let cartaCrupier1
 let cartaCrupier2
@@ -27,6 +27,7 @@ function generarNumeroCarta() {
 
 function vitoria() {
     alert("ganaste")
+    console.clear()
     dinero = dinero + (2*apuestaInicial)
     dineroContador.textContent = "Fondos: " + dinero + "€";
 
@@ -36,6 +37,7 @@ function vitoria() {
 
 function derrota() {
     alert("perdiste")
+    console.clear()
 
     menuInicial.style.display = "inline-flex";
     menuJugar.style.display = "none" 
@@ -43,7 +45,8 @@ function derrota() {
 
 function empate() {
     alert("empate")
-    dinero = dinero + apuestaInicial
+    console.clear()
+    dinero = parseInt(dinero) + parseInt(apuestaInicial)
     dineroContador.textContent = "Fondos: " + dinero + "€";
 
     menuInicial.style.display = "inline-flex";
@@ -53,7 +56,7 @@ function empate() {
 function comprobarApuesta() {
     apuestaInicial = document.getElementById("apuesta").value
 
-    if(dinero-apuestaInicial<0){
+    if(dinero-apuestaInicial < 0 || apuestaInicial <= 0){
         alert("No puedes aportar")
     } else  {
         dinero =  dinero-apuestaInicial
@@ -62,46 +65,73 @@ function comprobarApuesta() {
     }
 }
 
+function comprobarAs(primera,segunda,nueva) {
+    if (primera==1 && segunda==1){
+        if (primera == carta1){
+            return carta1 = 1
+        } else {
+            return cartaCrupier1 = 1
+        }
+    }
+    if (primera==1){
+        if (11+segunda>21){
+            if (primera == carta1){
+                carta1 = 1
+            } else {
+                cartaCrupier1 = 1
+            }
+        } else{
+            if (primera == carta1){
+                carta1 = 11
+            } else {
+                cartaCrupier1 = 11
+            }
+        }   
+    }
+    if (segunda==1){
+        if (11+primera>21){
+            if (segunda == carta2){
+                carta2 = 1
+            } else {
+                cartaCrupier2 = 1
+            }
+        } else{
+            if (segunda == carta2){
+                carta2 = 11
+            } else {
+                cartaCrupier2 = 11
+            }
+        }   
+    }
+    if (nueva==1){
+        if (11+primera+segunda>21){
+            if (nueva == cartaNueva){
+                cartaNueva = 1
+            } else {
+                cartaCrupierNueva = 1
+            }
+        } else{
+            if (nueva == cartaNueva){
+                cartaNueva = 11
+            } else {
+                cartaCrupierNueva = 11
+            }
+        }   
+    }
+}
+
 function apostar() {
     carta1 = generarNumeroCarta()
     carta2 = generarNumeroCarta()
 
-    if (carta1==1){
-        if (11+carta2>21){
-            carta1 = 1
-        } else{
-            carta1 = 11
-        }   
-    }
-
-    if (carta2==1){
-        if (11+carta1>21){
-            carta2 = 1
-        } else{
-            carta2 = 11
-        }   
-    }
+    comprobarAs(carta1,carta2,cartaNueva)
 
     tuMano =  carta1 + carta2
 
     cartaCrupier1 =  generarNumeroCarta()
     cartaCrupier2 =  generarNumeroCarta()
 
-    if (cartaCrupier1==1){
-        if (11+cartaCrupier2>21){
-            cartaCrupier1 = 1
-        } else{
-            cartaCrupier1 = 11
-        }   
-    }
-
-    if (cartaCrupier2==1){
-        if (11+cartaCrupier1>21){
-            cartaCrupier2 = 1
-        } else{
-            cartaCrupier2 = 11
-        }   
-    }
+    comprobarAs(cartaCrupier1,cartaCrupier2,cartaCrupierNueva)
 
     manoCrupier = cartaCrupier1 + cartaCrupier2
 
@@ -110,19 +140,21 @@ function apostar() {
     console.log("Mano crupier: " + manoCrupier)
 
     menuInicial.style.display = "none";
-    menuJugar.style.display = " inline-flex"  
+    menuJugar.style.display = " inline-flex" 
+    
+    if (tuMano == 21 && manoCrupier == 21) {
+        empate()
+    } else if (tuMano == 21) {
+        vitoria()
+    } else if (manoCrupier == 21){
+        derrota()
+    }
 }
 
 function pedirCarta() {
     cartaNueva = generarNumeroCarta()
 
-     if (cartaNueva==1){
-        if (11+carta1+carta2>21){
-            cartaNueva = 1
-        } else{
-            cartaNueva = 11
-        }   
-    }
+     comprobarAs(carta1,carta2,cartaNueva)
 
     console.log(cartaNueva)
     tuMano = tuMano + cartaNueva
@@ -136,20 +168,12 @@ function pedirCarta() {
     } else if (tuMano == 21) {
         vitoria()
     }
-
-
 }
 
 function plantarse(){
     cartaCrupierNueva = generarNumeroCarta()
 
-    if (cartaCrupierNueva==1){
-        if (11+cartaCrupier1+cartaCrupier2>21){
-            cartaCrupierNueva = 1
-        } else{
-            cartaCrupierNueva = 11
-        }   
-    }
+   comprobarAs(cartaCrupier1,cartaCrupier2,cartaCrupierNueva)
 
     if (manoCrupier > tuMano){
         derrota()
@@ -173,3 +197,4 @@ function plantarse(){
 }
 
 //realizar pantalla perder,  ganar  y empate, mejorar  comprobacion de apuesta, visializacion de cartas y mejora hud (ya es jugable en la consola)
+//por fin consegui crear la funcion d comprobar as, no estoy seguro si ahorra lineas pero las demas funciones quedan mas claras ahora
