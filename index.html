@@ -8,6 +8,12 @@
 </head>
 <body>
 
+<div id="pantalla-resultado">
+	<h2 id="titulo-resultado">Ganaste</h2>
+	<h3 id="dinero-resultado">+999€</h3>
+	<button id="resultado-jugar-boton">Volver a jugar</button>
+</div>
+
 <div id="perfil">
 	<div id="perfil-divisor">
 		<h2 id="nombre-usuario">Nombre</h2>
@@ -17,7 +23,7 @@
 </div>
 
 <div id="menu-inicial">
-	<input type="number" id="apuesta" placeholder="Apuesta inicial">
+	<input type="number" id="apuesta" placeholder="Tu apuesta">
 	<button id="apostar-boton">Iniciar apuesta</button>
 </div>
 
@@ -26,14 +32,19 @@
 	<button id="plantarse-boton">Plantarse</button>
 </div>
 
+<div id="cartas-crupier">
+	<img id="carta-crupier-1" src="">
+	<img id="carta-crupier-2" src="">
+</div>
 
-
-<img id="carta-1" src="">
-<img id="carta-2" src="">
-
-<img id="carta-crupier-1" src="">
-<img id="carta-crupier-2" src="">
+<div id="cartas-jugador">
+	<img id="carta-1" src="">
+	<img id="carta-2" src="">
+</div>
 
 <script src="script.js"></script>
+<script src="declaraciones.js"></script>
+
+
 </body>
 </html>

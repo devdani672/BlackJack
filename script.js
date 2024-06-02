@@ -1,43 +1,3 @@
-const baraja = {
-    2: ["2_of_clubs.png","2_of_diamonds.png","2_of_hearts.png","2_of_spades.png"],
-    3: ["3_of_clubs.png","3_of_diamonds.png","3_of_hearts.png","3_of_spades.png"],
-    4: ["4_of_clubs.png","4_of_diamonds.png","4_of_hearts.png","4_of_spades.png"],
-    5: ["5_of_clubs.png","5_of_diamonds.png","5_of_hearts.png","5_of_spades.png"],
-    6: ["6_of_clubs.png","6_of_diamonds.png","6_of_hearts.png","6_of_spades.png"],
-    7: ["7_of_clubs.png","7_of_diamonds.png","7_of_hearts.png","7_of_spades.png"],
-    8: ["8_of_clubs.png","8_of_diamonds.png","8_of_hearts.png","8_of_spades.png"],
-    9: ["9_of_clubs.png","9_of_diamonds.png","9_of_hearts.png","9_of_spades.png"],
-    10: ["10_of_clubs.png","10_of_diamonds.png","10_of_hearts.png","10_of_spades.png","jack_of_clubs2.png",
-        "jack_of_diamonds2.png","jack_of_hearts2.png","jack_of_spades2.png","king_of_clubs2.png",
-        "king_of_diamonds2.png","king_of_hearts2.png","king_of_spades2.png","queen_of_clubs2.png",
-        "queen_of_diamonds2.png","queen_of_hearts2.png","queen_of_spades2.png"],
-    11: ["ace_of_clubs.png","ace_of_diamonds.png","ace_of_hearts.png","ace_of_spades.png"],
-    1: ["ace_of_clubs.png","ace_of_diamonds.png","ace_of_hearts.png","ace_of_spades.png"]
-}
-
-const menuInicial = document.getElementById("menu-inicial")
-const menuJugar = document.getElementById("menu-jugar")
-const carta1Imagen = document.getElementById("carta-1")
-const carta2Imagen = document.getElementById("carta-2")
-const carta1CrupierImagen = document.getElementById("carta-crupier-1")
-const carta2CrupierImagen = document.getElementById("carta-crupier-2")
-
-const botonApostar = document.getElementById("apostar-boton")
-const botonPedir = document.getElementById("pedir-boton")
-const botonPlantarse = document.getElementById("plantarse-boton")
-
-botonApostar.addEventListener("click",comprobarApuesta)
-botonPedir.addEventListener("click",pedirCarta)
-botonPlantarse.addEventListener("click",plantarse)
-
-let dinero = 100
-let dineroContador = document.getElementById("dinero-usuario");
-dineroContador.textContent = "Fondos: " + dinero + "€";
-
-let tuMano, carta1, carta2, manoCrupier, cartaCrupier1, cartaCrupier2, apuestaInicial
-let cartaNueva = 0
-let cartaCrupierNueva = 0
-
 
 function generarNumeroCarta() {
     const random = Math.random();
@@ -49,32 +9,65 @@ function generarNumeroCarta() {
     }
 }
 
-function vitoria() {
-    alert("ganaste")
-    console.clear()
-    dinero = dinero + (2*apuestaInicial)
-    dineroContador.textContent = "Fondos: " + dinero + "€";
-
+function volverMenu() {
     menuInicial.style.display = "inline-flex";
     menuJugar.style.display = "none" 
+    resultadoPantalla.style.display = "none"
+    carta1Imagen.style.display = "none"
+    carta2Imagen.style.display = "none"
+    carta1CrupierImagen.style.display = "none"
+    carta2CrupierImagen.style.display = "none"
+
+    let basuras = document.querySelectorAll(".carta-nueva")
+    for (let i = 0; i < basuras.length; i++) {
+        let basura = document.querySelector(".carta-nueva")
+        basura.remove()
+    }
+    
+    let basurasCrupier = document.querySelectorAll(".carta-crupier-nueva")
+    for (let i = 0; i < basurasCrupier.length; i++) {
+        let basura = document.querySelector(".carta-crupier-nueva")
+        basura.remove()
+    }
+ 
+}
+
+function ajustarPantalla(resultado,signo) {
+    resultadoPantalla.style.display = "inline-flex"
+    resultadoTitulo.textContent = resultado
+    if (resultado == "EMPATE"){
+        resultadoDinero.remove()
+    } else{
+        resultadoDinero.textContent = signo + apuestaInicial + "€"
+    }
+}
+
+function vitoria() {
+    ajustarPantalla("¡GANASTE!","+")
+
+    dinero = dinero + (2*apuestaInicial)
+    dineroContador.textContent = "Fondos: " + dinero + "€";
 }
 
 function derrota() {
-    alert("perdiste")
-    console.clear()
-
-    menuInicial.style.display = "inline-flex";
-    menuJugar.style.display = "none" 
+    ajustarPantalla("PERDISTE","-")
 }
 
 function empate() {
-    alert("empate")
-    console.clear()
+    ajustarPantalla("EMPATE")
+    
     dinero = parseInt(dinero) + parseInt(apuestaInicial)
     dineroContador.textContent = "Fondos: " + dinero + "€";
+}
 
-    menuInicial.style.display = "inline-flex";
-    menuJugar.style.display = "none" 
+function resolucion(){
+    if (manoCrupier == tuMano){
+        empate()
+    } else if(manoCrupier > tuMano && manoCrupier <= 21){
+        derrota()
+    } else {
+        vitoria()
+    }
 }
 
 function comprobarApuesta() {
@@ -134,9 +127,15 @@ function comprobarAs(primera,segunda,nueva) {
             comprobarCarta(nueva,11)
         }   
     }
-    }
+}
 
 function apostar() {
+    carta1Imagen.style.display = "inline"
+    carta2Imagen.style.display = "inline"
+    carta1CrupierImagen.style.display = "inline"
+    carta2CrupierImagen.style.display = "inline"
+    
+
     carta1 = generarNumeroCarta()
     carta2 = generarNumeroCarta()
 
@@ -180,23 +179,13 @@ function apostar() {
     } else{
         carta1CrupierImagen.setAttribute("src","baraja-img/" + baraja[cartaCrupier1][c])
     } 
-    if (cartaCrupier2==10){
-        carta2CrupierImagen.setAttribute("src","baraja-img/" + baraja[cartaCrupier2][w])
-    } else {
-        carta2CrupierImagen.setAttribute("src","baraja-img/" + baraja[cartaCrupier2][d])
-    }
+
+    carta2CrupierImagen.setAttribute("src","baraja-img/caratula.png")
+    
 
 
     menuInicial.style.display = "none";
     menuJugar.style.display = " inline-flex" 
-    
-    if (tuMano == 21 && manoCrupier == 21) {
-        empate()
-    } else if (tuMano == 21) {
-        vitoria()
-    } else if (manoCrupier == 21){
-        derrota()
-    }
 }
 
 function pedirCarta() {
@@ -204,45 +193,71 @@ function pedirCarta() {
 
     comprobarAs(carta1,carta2,cartaNueva)
 
-    console.log(cartaNueva)
     tuMano = tuMano + cartaNueva
-    console.log("Tu mano: " + tuMano)
+
+    let z = Math.floor(Math.random() * 16)
+    let a = Math.floor(Math.random() *4)
+    
+    console.log(cartaNueva)
+    console.log("Tu mano: " +tuMano)
+    let img = document.createElement("img")
+    img.setAttribute("class","carta-nueva")
+    contenedorCartas.appendChild(img)
+
+    if (cartaNueva==10){
+          img.src = "baraja-img/" + baraja[cartaNueva][z]
+    } else{
+          img.src = "baraja-img/" + baraja[cartaNueva][a]
+    } 
 
     if (tuMano>21) {
-        derrota()
-
-        menuInicial.style.display = "inline-flex";
-        menuJugar.style.display = "none" 
-    } else if (tuMano == 21) {
-        vitoria()
+        return derrota()
     }
 }
 
 function plantarse(){
-    cartaCrupierNueva = generarNumeroCarta()
-
-   comprobarAs(cartaCrupier1,cartaCrupier2,cartaCrupierNueva)
-
-    if (manoCrupier > tuMano){
-        derrota()
-    } else if (manoCrupier == tuMano && manoCrupier > 16) {
-        empate()
+    if (carta2CrupierImagen.getAttribute("src")== "baraja-img/caratula.png") {
+        console.log("estoy aqui")
+        let w = Math.floor(Math.random() * 16)
+        let d = Math.floor(Math.random() *4)
+        if (cartaCrupier2==10){
+            carta2CrupierImagen.setAttribute("src","baraja-img/" + baraja[cartaCrupier2][w])
+        } else {
+            carta2CrupierImagen.setAttribute("src","baraja-img/" + baraja[cartaCrupier2][d])
+        }
     }
+    
+    if (manoCrupier < 17) {
+        cartaCrupierNueva = generarNumeroCarta()
 
-    console.log("Carta nueva del crupier: " + cartaCrupierNueva)
-    manoCrupier = manoCrupier + cartaCrupierNueva
-    console.log("Mano crupier: " + manoCrupier)
+        comprobarAs(cartaCrupier1,cartaCrupier2,cartaCrupierNueva)
 
-    if (manoCrupier > 21) {
-        vitoria()
-    } else if (manoCrupier == tuMano) {
-        empate()
-    } else if (manoCrupier == 21 || manoCrupier > tuMano) {
-        derrota()
-    } else {
+        manoCrupier = manoCrupier + cartaCrupierNueva
+
+        console.log(cartaCrupierNueva)
+        console.log("Mano crupier:" + manoCrupier)
+        let z = Math.floor(Math.random() * 16)
+        let a = Math.floor(Math.random() *4)
+
+        let img = document.createElement("img")
+        img.setAttribute("class","carta-crupier-nueva")
+        contenedorCartasCrupier.appendChild(img)
+
+        if (cartaCrupierNueva==10){
+            img.src = "baraja-img/" + baraja[cartaCrupierNueva][z]
+        } else{
+            img.src = "baraja-img/" + baraja[cartaCrupierNueva][a]
+        } 
+
+        
+
         setTimeout(plantarse,1500)
-    }
+    } else{
+        return resolucion()
+    } 
 }
 
-//realizar pantalla perder,  ganar  y empate, mejorar  comprobacion de apuesta, visializacion de cartas y mejora hud (ya es jugable en la consola)
-//por fin consegui crear la funcion d comprobar as, no estoy seguro si ahorra lineas pero las demas funciones quedan mas claras ahora
+
+
+
+// añadir doblar y dividir, mejorar HUD (ya es realmente jugable), crear patala de inicio con nombre y sistema d logros
