@@ -139,8 +139,8 @@ function apostar() {
     carta1CrupierImagen.style.display = "inline"
     carta2CrupierImagen.style.display = "inline"
 
-    carta1 = 2
-    carta2 = 2
+    carta1 = generarNumeroCarta()
+    carta2 = generarNumeroCarta()
 
     comprobarAs(carta1,carta2,cartaNueva)
 
@@ -232,7 +232,6 @@ function pedirCarta() {
 
 function plantarse(){
     if (carta2CrupierImagen.getAttribute("src")== "baraja-img/caratula.png") {
-        console.log("estoy aqui")
         let w = Math.floor(Math.random() * 16)
         let d = Math.floor(Math.random() *4)
         if (cartaCrupier2==10){
