@@ -22,26 +22,30 @@ const contenedorCartas = document.getElementById("cartas-jugador")
 const carta1Imagen = document.getElementById("carta-1")
 const carta2Imagen = document.getElementById("carta-2")
 const cartaNuevaImagen = document.getElementById("carta-nueva")
+const contadorJugador = document.getElementById("contador-jugador")
 
 const contenedorCartasCrupier = document.getElementById("cartas-crupier")
 const carta1CrupierImagen = document.getElementById("carta-crupier-1")
 const carta2CrupierImagen = document.getElementById("carta-crupier-2")
 const cartaCrupierNuevaImagen = document.getElementById("carta-crupier-nueva")
+const contadorCrupier = document.getElementById("contador-crupier")
 
 const botonApostar = document.getElementById("apostar-boton")
 const botonPedir = document.getElementById("pedir-boton")
 const botonPlantarse = document.getElementById("plantarse-boton")
+const botonDoblar = document.getElementById("doblar-boton")
+const botonDividir = document.getElementById("dividir-boton")
 const resultadoPantalla = document.getElementById("pantalla-resultado")
 const resultadoTitulo = document.getElementById("titulo-resultado")
 const resultadoDinero = document.getElementById("dinero-resultado")
 const botonJugarResultado = document.getElementById("resultado-jugar-boton")
 
-
-
 botonJugarResultado.addEventListener("click",volverMenu)
 botonApostar.addEventListener("click",comprobarApuesta)
 botonPedir.addEventListener("click",pedirCarta)
 botonPlantarse.addEventListener("click",plantarse)
+
+botonDoblar.addEventListener("click",doblar)
 
 let dinero = 100
 let dineroContador = document.getElementById("dinero-usuario");

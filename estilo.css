@@ -93,7 +93,7 @@ input[type="number"]
 	justify-content: center;
 	display: none;
 }
-#pedir-boton{
+#pedir-boton, #doblar-boton, #dividir-boton, #plantarse-boton{
 	margin: 10px;
 	font-size: 1.3rem;
 	color: #222;
@@ -103,20 +103,12 @@ input[type="number"]
 	width: 250px;
 	min-width: 200px;
 	border-radius: 10px;
-}
-#plantarse-boton{
-	border-radius: 10px;
-	font-size: 1.3rem;
-	color: #222;
-	margin: 10px;
-	margin-left: 20px;
-	background: #f5f5f5;
-	padding: 10px;
-	cursor: pointer;
-	width: 250px;
-	min-width: 200px;
 }
 
+#dividir-boton {
+	opacity: .7;
+	cursor: default;
+}
 
 	/* CARTAS */
 
@@ -139,6 +131,11 @@ input[type="number"]
 	display: flex;
 	justify-content: center;
 	
+}
+
+#contador-crupier, #contador-jugador {
+	margin: 20px;
+	font-size: 2rem;
 }
 
 
