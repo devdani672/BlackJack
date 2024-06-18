@@ -17,6 +17,8 @@ function volverMenu() {
     carta2Imagen.style.display = "none"
     carta1CrupierImagen.style.display = "none"
     carta2CrupierImagen.style.display = "none"
+    contadorJugador.textContent = ""
+    contadorCrupier.textContent = ""
 
     let basuras = document.querySelectorAll(".carta-nueva")
     for (let i = 0; i < basuras.length; i++) {
@@ -37,7 +39,7 @@ function ajustarPantalla(resultado,signo) {
     resultadoTitulo.textContent = resultado
     if (resultado == "EMPATE"){
         console.log("es empate")
-        resultadoDinero.remove()
+        resultadoDinero.textContent = ""
     } else{
         resultadoDinero.textContent = signo + apuestaInicial + "€"
     }

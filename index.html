@@ -24,27 +24,33 @@
 
 <div id="menu-inicial">
 	<input type="number" id="apuesta" placeholder="Tu apuesta">
-	<button id="apostar-boton">Iniciar apuesta</button>
+	<button id="apostar-boton" class="boton">Iniciar apuesta</button>
 </div>
 
 <div id="menu-jugar">
-	<button id="pedir-boton">Pedir</button>
-	<button id="plantarse-boton">Plantarse</button>
-	<button id="doblar-boton">Doblar</button>
-	<button id="dividir-boton">Dividir</button>
+	<button id="pedir-boton" class="boton">Pedir</button>
+	<button id="plantarse-boton" class="boton">Plantarse</button>
+	<button id="doblar-boton" class="boton">Doblar</button>
+	<button id="dividir-boton" class="boton">Dividir</button>
 </div>
 
-<div id="cartas-crupier">
-	<span id="contador-crupier">N</span>
-	<img id="carta-crupier-1" src="">
-	<img id="carta-crupier-2" src="">
+<div id="cartas-crupier-contenedor">
+	<div id="cartas-crupier">
+		<img id="carta-crupier-1" src="">
+		<img id="carta-crupier-2" src="">
+	</div>
+	<span id="contador-crupier"></span>
 </div>
 
-<div id="cartas-jugador">
-	<span id="contador-jugador">N</span>
-	<img id="carta-1" src="">
-	<img id="carta-2" src="">
+<div id="cartas-jugador-contenedor">
+	<div id="cartas-jugador">
+		<img id="carta-1" src="">
+		<img id="carta-2" src="">
+	</div>
+	<span id="contador-jugador"></span>
 </div>
+
+
 
 <script src="script.js"></script>
 <script src="declaraciones.js"></script>
