@@ -7,8 +7,10 @@
 }
 
 body {
+	height: 100dvh;
 	background: rgb(19,157,149);
-	background: radial-gradient(circle, rgba(19,157,149,1) 0%, rgba(17,17,17,1) 100%); 
+	background: radial-gradient(circle at center, rgba(19,157,149,1) 0%, rgba(7,53,50,1) 100%); 
+
 }
 	/* PERFIL */
 
@@ -175,10 +177,10 @@ input[type="number"]{
 	/* CARTAS */
 
 
-#carta-1, #carta-2, #carta-crupier-1, #carta-crupier-2, .carta-nueva, .carta-crupier-nueva {
-	width: 120px;
+#carta-1, #carta-2, #carta-crupier-1, #carta-crupier-2, .carta-nueva, .carta-crupier-nueva, .segunda-mano-cartas  {
+	width: 115px;
 	margin: -10px;
-	box-shadow: 2px 2px 10px #111;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .5);
 }
 #cartas-jugador{
 	display: flex;
@@ -189,8 +191,8 @@ input[type="number"]{
 }
 #cartas-jugador-contenedor{
 	display: flex;
-	flex-direction: column;
 	align-content: center;
+	align-items: center;
 }
 #cartas-crupier{
 	margin-top: 35px;
@@ -201,13 +203,21 @@ input[type="number"]{
 #cartas-crupier-contenedor{
 	display: flex;
 	flex-direction: column;
-	align-content: center;
+	align-items: center;
 }
-#contador-crupier, #contador-jugador {
+#contador-crupier, #contador-jugador, #contador2-jugador{
+	width: fit-content;
+	padding: 2px 10px;
+	border-radius: 9999999px;
+	color: #111;
 	margin-top: 20px;
-	font-size: 1.75rem;
+	font-size: 1.5rem;
 	text-align: center;
+	background-color: #f5f5f5;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+	opacity: 0;
 }
+
 
 
 /* PANTALLA RESULTADO */
@@ -241,5 +251,35 @@ input[type="number"]{
 }
 
 
+/* SEGUNDA MANO DEL JUGADOR */
 
 
+
+
+#manos-jugador-contenedor{
+	margin-top: 50px;
+	display: flex;
+	width: 100%;
+	place-content: center;
+	flex-wrap: nowrap;
+	gap: 100px;
+}
+
+#mano1-jugador, #mano2-jugador{
+	width: fit-content;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#mano2-jugador{
+	width: fit-content;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	display: none;
+}
+
+#mano2-jugador-cartas {
+	width: fit-content;
+}

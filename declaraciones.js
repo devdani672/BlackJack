@@ -18,11 +18,16 @@ const baraja = {
 const menuInicial = document.getElementById("menu-inicial")
 const menuJugar = document.getElementById("menu-jugar")
 
-const contenedorCartas = document.getElementById("cartas-jugador")
+const contenedorManosJugador = document.getElementById("manos-jugador-contenedor")
+const contenedorMano1 = document.getElementById("mano1-jugador")
+const mano1CartasJugador = document.getElementById("mano1-jugador-cartas")
+const contenedorMano2 = document.getElementById("mano2-jugador")
+const mano2CartasJugador = document.getElementById("mano2-jugador-cartas")
 const carta1Imagen = document.getElementById("carta-1")
 const carta2Imagen = document.getElementById("carta-2")
 const cartaNuevaImagen = document.getElementById("carta-nueva")
 const contadorJugador = document.getElementById("contador-jugador")
+const contador2Jugador = document.getElementById("contador2-jugador")
 
 const contenedorCartasCrupier = document.getElementById("cartas-crupier")
 const carta1CrupierImagen = document.getElementById("carta-crupier-1")
@@ -51,6 +56,7 @@ let dinero = 100
 let dineroContador = document.getElementById("dinero-usuario");
 dineroContador.textContent = "Fondos: " + dinero + "€";
 
-let tuMano, carta1, carta2, manoCrupier, cartaCrupier1, cartaCrupier2, apuestaInicial
+let tuMano, tuMano2, carta1, carta2, manoCrupier, cartaCrupier1, cartaCrupier2, apuestaInicial
 let cartaNueva = 0
 let cartaCrupierNueva = 0
+let acabarPartda = false 
