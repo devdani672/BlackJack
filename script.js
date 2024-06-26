@@ -46,26 +46,26 @@ function volverMenu() {
  
 }
 
-function ajustarPantalla(resultado,signo) {
+function ajustarPantalla(resultado,texto) {
     resultadoPantalla.style.display = "inline-flex"
     resultadoTitulo.textContent = resultado
     if (resultado == "EMPATE"){
         //console.log("es empate")
         resultadoDinero.textContent = ""
     } else{
-        resultadoDinero.textContent = signo + apuestaInicial + "€"
+        resultadoDinero.textContent = texto + apuestaInicial + "€"
     }
 }
 
-function vitoria() {
-    ajustarPantalla("¡GANASTE!","+")
+function victoria() {
+    ajustarPantalla("¡GANASTE!","Ganancia neta: +")
 
     dinero = dinero + (2*apuestaInicial)
     dineroContador.textContent = "Fondos: " + dinero + "€";
 }
 
 function derrota() {
-    ajustarPantalla("PERDISTE","-")
+    ajustarPantalla("PERDISTE","Perdida neta: -")
 }
 
 function empate() {
@@ -76,13 +76,52 @@ function empate() {
 }
 
 function resolucion(){
-    if (manoCrupier == tuMano){
-        empate()
-    } else if(manoCrupier > tuMano && manoCrupier <= 21){
-        derrota()
+    if (contenedorMano2.style.display == "flex") { // si se ha divido
+
+        const manoCrupierIgualTuMano = manoCrupier == tuMano; // empata la mano 1 con la mano del crupier
+        const tuMano2Perdida = tuMano2 > 21; // la mano 2 se pasa de 21
+        const crupierMejorTuMano2 = manoCrupier > tuMano2 && manoCrupier <= 21; // la mano del crupier se acerca más a 21 que la mano 1
+
+        const manoCrupierIgualTuMano2 = manoCrupier == tuMano2; // empata la mano 2 con la mano del crupier
+        const tuManoPerdida = tuMano > 21; // la manno 1 se pasa de 21
+        const crupierMejorTuMano = manoCrupier > tuMano && manoCrupier <= 21; // la mano del crupier se acerca más a 21 que la mano 1
+
+        const perderMano1AmbasManeras = tuManoPerdida || crupierMejorTuMano; // las dos maneras de perder la mano 1 agrupadas
+        const perderMano2AmbasManeras = tuMano2Perdida || crupierMejorTuMano2; // las dos maneras de perder la mano 2 agrupadas
+
+        const tuManoMejorCrupier = tuMano > manoCrupier && tuMano <= 21;
+        const tuMano2MejorCrupier = tuMano2 > manoCrupier && tuMano2 <= 21;
+        const crupierPerdida = manoCrupier > 21;
+
+        const ganarMano1AmbasManeras = crupierPerdida || tuManoMejorCrupier;
+        const ganarMano2AmbasManeras = crupierPerdida || tuMano2MejorCrupier;
+
+        if(perderMano1AmbasManeras && perderMano2AmbasManeras){ //pierden las 2 manos
+            derrota()
+        } else if ((manoCrupierIgualTuMano && perderMano2AmbasManeras) || (manoCrupierIgualTuMano2 && perderMano1AmbasManeras)) { //pierde una gana otra
+            apuestaInicial = apuestaInicial / 2
+            derrota()
+        } else if ((manoCrupierIgualTuMano && manoCrupierIgualTuMano2) || (ganarMano1AmbasManeras && perderMano2AmbasManeras) ||
+                   (ganarMano2AmbasManeras && perderMano1AmbasManeras)){ // o empatan las dos o gana una y pierde otra
+            empate()
+        } else if ((manoCrupierIgualTuMano && ganarMano2AmbasManeras) || (manoCrupierIgualTuMano2 && ganarMano1AmbasManeras)){ // gana una empata otra
+            apuestaInicial = apuestaInicial / 2
+            victoria()
+            dinero = dinero + apuestaInicial
+            dineroContador.textContent = "Fondos: " + dinero + "€"
+        } else { // gana las dos
+            victoria()
+        }
     } else {
-        vitoria()
+        if (manoCrupier == tuMano){ // si no se ha dividido
+            empate()
+        } else if(manoCrupier > tuMano && manoCrupier <= 21){
+            derrota()
+        } else {
+           victoria()
+        }
     }
+       
 }
 
 function comprobarApuesta() {
@@ -165,9 +204,9 @@ function apostar() {
     carta1CrupierImagen.style.display = "inline"
     carta2CrupierImagen.style.display = "inline"
 
-    carta1 = 2
-    carta2 = 2
-    
+    // GENERAR CARTAS JUGADOR Y MANO JUGADOR
+    carta1 = generarNumeroCarta()
+    carta2 = generarNumeroCarta()
     tuMano = carta1 + carta2
     
     comprobarAs(carta1,carta2,cartaNueva,tuMano)
@@ -175,56 +214,33 @@ function apostar() {
     tuMano = carta1 + carta2
     contadorJugador.textContent = tuMano
 
+    // HABILITAR DIVIDIR
     if (carta1 == carta2) {
         botonDividir.addEventListener("click",dividir)
         botonDividir.style.opacity = "1"
         botonDividir.style.cursor = "pointer"
     }
 
-    
+    // GENERAR CARTAS CRUPIER Y MANO CRUPIER
     cartaCrupier1 =  generarNumeroCarta()
     cartaCrupier2 =  generarNumeroCarta()
 
     comprobarAs(cartaCrupier1,cartaCrupier2,cartaCrupierNueva)
 
+    // ACTIVAR LOS CONTADORES
     manoCrupier = cartaCrupier1 + cartaCrupier2
     contadorCrupier.textContent = cartaCrupier1 + "+?"
     contadorCrupier.style.opacity = "1"
     contadorJugador.style.opacity = "1"
-    contador2Jugador.style.opacity = "1"
 
-    //console.log(carta1, carta2, cartaCrupier1, cartaCrupier2)
-    //console.log("Tu mano: " + tuMano)
-    //console.log("Mano crupier: " + manoCrupier)
-
-    let z = Math.floor(Math.random() * 16)
-    let y = Math.floor(Math.random() * 16)
-    let x = Math.floor(Math.random() * 16)
-    let a = Math.floor(Math.random() *4)
-    let b = Math.floor(Math.random() *4)
-    let c = Math.floor(Math.random() *4)
- 
-
-    if (carta1==10){
-        carta1Imagen.setAttribute("src","baraja-img/" + baraja[carta1][z])
-    } else{
-        carta1Imagen.setAttribute("src","baraja-img/" + baraja[carta1][a])
-    } 
-    if (carta2==10){
-        carta2Imagen.setAttribute("src","baraja-img/" + baraja[carta2][y])
-    } else {
-        carta2Imagen.setAttribute("src","baraja-img/" + baraja[carta2][b])
-    }
-    
-    if (cartaCrupier1==10){
-        carta1CrupierImagen.setAttribute("src","baraja-img/" + baraja[cartaCrupier1][x])
-    } else{
-        carta1CrupierImagen.setAttribute("src","baraja-img/" + baraja[cartaCrupier1][c])
-    } 
+    // GENERAR LAS IMÁGENES DE LAS CARTAS
+    generarImagenCarta(carta1, carta1Imagen)
+    generarImagenCarta(carta2, carta2Imagen)
+    generarImagenCarta(cartaCrupier1, carta1CrupierImagen)
 
     carta2CrupierImagen.setAttribute("src","baraja-img/caratula.png")
     
-
+    // CAMBIAR MENU
     menuInicial.style.display = "none";
     menuJugar.style.display = " inline-flex" 
 }
@@ -238,9 +254,9 @@ function pedirCarta() {
     tuMano = tuMano + cartaNueva
     contadorJugador.textContent = tuMano
 
-
     tuMano2 = tuMano2 + cartaNueva2
     contador2Jugador.textContent = tuMano2
+
     // GENERAR LA CARTA NUEVA PARA LA MANO 1
     let imgCartaNueva = document.createElement("img")
     imgCartaNueva.setAttribute("class","carta-nueva")
@@ -262,9 +278,15 @@ function pedirCarta() {
     botonDividir.style.pointerEvents = "none"
     botonDividir.style.opacity = "0.7"
 
-    if (tuMano>21) {
-        acabarPartda = true
-        return derrota()
+    if (contenedorMano2.style.display == "flex") {
+        if (tuMano > 21 && tuMano2 > 21){
+             derrota()
+        }
+    } else {
+        if (tuMano>21) {
+            acabarPartda = true
+            return derrota()
+    }
     }
 }
 
@@ -272,50 +294,54 @@ function plantarse(){
     if (carta2CrupierImagen.getAttribute("src")== "baraja-img/caratula.png") {
         generarImagenCarta(cartaCrupier2, carta2CrupierImagen)
     }
+    contadorCrupier.textContent = manoCrupier
+    setTimeout(function(){
+        if (manoCrupier < 17) {
+            cartaCrupierNueva = generarNumeroCarta()
     
-    if (manoCrupier < 17) {
-        cartaCrupierNueva = generarNumeroCarta()
+            comprobarAs(cartaCrupier1,cartaCrupier2,cartaCrupierNueva,manoCrupier)
+    
+            manoCrupier = manoCrupier + cartaCrupierNueva
+            contadorCrupier.textContent = manoCrupier
+    
+            // GENERAR IMG CARTA NUEVA DEL CRUPIER
+            let imgCartaNuevaCrupier = document.createElement("img")
+            imgCartaNuevaCrupier.setAttribute("class","carta-crupier-nueva")
+            contenedorCartasCrupier.appendChild(imgCartaNuevaCrupier)
+    
+            generarImagenCarta(cartaCrupierNueva, imgCartaNuevaCrupier)
+    
+            // DESACTIVAR LOS DEMAS BOTONES
+            botonDoblar.style.pointerEvents = "none"
+            botonDoblar.style.opacity = "0.7"
+    
+            botonDividir.style.pointerEvents = "none"
+            botonDividir.style.opacity = "0.7"
+            
+            botonPedir.style.pointerEvents = "none"
+            botonPedir.style.opacity = "0.7"
+    
+            botonPlantarse.style.pointerEvents = "none"
+            botonPlantarse.style.opacity = "0.7"
+    
+             // REPETIR PROCESO
+            setTimeout(plantarse,800)
+        } else{
+            return resolucion()
+        } 
 
-        comprobarAs(cartaCrupier1,cartaCrupier2,cartaCrupierNueva,manoCrupier)
-
-        manoCrupier = manoCrupier + cartaCrupierNueva
-        contadorCrupier.textContent = manoCrupier
-
-        // GENERAR IMG CARTA NUEVA DEL CRUPIER
-        let imgCartaNuevaCrupier = document.createElement("img")
-        imgCartaNuevaCrupier.setAttribute("class","carta-crupier-nueva")
-        contenedorCartasCrupier.appendChild(imgCartaNuevaCrupier)
-
-        generarImagenCarta(cartaCrupierNueva, imgCartaNuevaCrupier)
-
-        // DESACTIVAR LOS DEMAS BOTONES
-        botonDoblar.style.pointerEvents = "none"
-        botonDoblar.style.opacity = "0.7"
-
-        botonDividir.style.pointerEvents = "none"
-        botonDividir.style.opacity = "0.7"
-        
-        botonPedir.style.pointerEvents = "none"
-        botonPedir.style.opacity = "0.7"
-
-        botonPlantarse.style.pointerEvents = "none"
-        botonPlantarse.style.opacity = "0.7"
-
-         // REPETIR PROCESO
-        setTimeout(plantarse,1500)
-    } else{
-        contadorCrupier.textContent = manoCrupier
-        return resolucion()
-    } 
+    },800)
+    
+    
 }
 
 function doblar() {
     dinero =  dinero-apuestaInicial
     dineroContador.textContent = "Fondos: " + dinero + "€";
-    apuestaInicial = apuestaInicial * 2
+    apuestaInicial = apuestaInicial * 2;
 
     pedirCarta()
-    
+
     if (acabarPartda != true) {
         plantarse()
     }
