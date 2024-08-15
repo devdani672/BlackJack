@@ -60,4 +60,3 @@ let tuMano, tuMano2, carta1, carta2, manoCrupier, cartaCrupier1, cartaCrupier2, 
 let cartaNueva = 0
 let cartaNueva2 = 0
 let cartaCrupierNueva = 0
-let acabarPartda = false 

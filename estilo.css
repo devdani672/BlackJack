@@ -12,6 +12,53 @@ body {
 	background: radial-gradient(circle at center, rgba(19,157,149,1) 0%, rgba(7,53,50,1) 100%); 
 
 }
+
+
+	/* PANTALLA INICIO */
+
+
+form{
+	top: 200px;
+	width: fit-content;
+	padding: 0 30px;
+	background-color: #111;
+	outline: 4px solid #f5f5f5;
+	border-radius: 20px;
+	position: relative;
+	right: 0; left: 0;  margin: auto;
+	display: grid;
+	justify-content: center;
+
+	input{
+		width: 100%;
+		border-radius: 10px;
+		text-align: center;
+		margin-top: 30px;
+		font-weight: bold;
+		padding: 10px;
+		cursor: pointer;
+		background-color: #f5f5f5;
+		border: 3px solid #f5f5f5;
+		outline: none;
+		color: #111;
+		box-shadow: 1px 1px 5px rgba(245, 245, 245, .7),
+					-1px -1px 5px rgba(245, 245, 245, .7);
+	}
+	button{
+		width: 100%;
+		border-radius: 10px;
+		margin: 30px 0 30px 0;
+		font-weight: bold;
+		padding: 10px;
+		cursor: pointer;
+		background-color: #111;
+		border: 3px solid #f5f5f5;
+		color: #f5f5f5;
+		box-shadow: 1px 1px 5px rgba(245, 245, 245, .7),
+					-1px -1px 5px rgba(245, 245, 245, .7);
+	}
+}
+
 	/* PERFIL */
 
 
@@ -24,6 +71,7 @@ body {
 	border-bottom-right-radius: 10px;
 	outline: 4px solid #f5f5f5;
 	box-shadow: 4px 4px 10px rgb(10, 22, 15);
+	opacity: 0;
 }
 #perfil-divisor {
 	width: 100%;
@@ -57,6 +105,7 @@ body {
 	padding: 20px;
 	display: flex;
 	justify-content: center;
+	opacity: 0;
 }
 #apuesta {
 	width: 250px;

@@ -1,4 +1,17 @@
 
+function empezarPartida(){
+    const formulario = document.getElementById("formulario");
+    const perfil = document.getElementById("perfil");
+    const nombre = document.getElementById("nombre-usuario")
+    let nombreJugador = document.getElementById("nombre").value
+    
+    nombre.textContent = nombreJugador
+    formulario.style.display = "none"
+    menuInicial.style.opacity = "1";
+    perfil.style.opacity = "1"
+
+}
+
 function generarNumeroCarta() {
     const random = Math.random();
 
@@ -284,7 +297,7 @@ function pedirCarta() {
         }
     } else {
         if (tuMano>21) {
-            acabarPartda = true
+            acabarPartida = true
             return derrota()
     }
     }
@@ -342,7 +355,9 @@ function doblar() {
 
     pedirCarta()
 
-    if (acabarPartda != true) {
+    if (tuMano>21) {
+         derrota()
+    } else{
         plantarse()
     }
 }
@@ -364,8 +379,6 @@ function dividir() {
     contador2Jugador.textContent = tuMano2
 
     mano2CartasJugador.appendChild(carta2Imagen)
-
-    
 }
 
 
